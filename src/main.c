@@ -12,6 +12,6 @@ int main(int argc, char *argv[]) {
 		strncpy(algo, argv[1], 999);
 	}
 	make_moves(cube, algo);
-    solve_corners(cube);
+	solve(cube);
 	return 0;
 }
