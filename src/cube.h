@@ -19,4 +19,8 @@ void print_cube_text();
 
 void print_cube_color();
 
+uint8_t is_solved(uint32_t* cube);
+
+void make_moves(uint32_t* cube, char* algo);
+
 #endif

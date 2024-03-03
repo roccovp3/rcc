@@ -3,7 +3,6 @@
 #include <string.h>
 #include "cube.h"
 
-
 void rotate_face(uint32_t* cube, FACE face, uint8_t ccw) {
 
 	if (ccw) {
@@ -100,4 +99,75 @@ void print_cube_color(uint32_t* cube) {
 	printf("      %s%s%s\n", unicode_colors[(cube[YELLOW] & 0x0000000F)], unicode_colors[(cube[YELLOW] & 0x000000F0) >> 4], unicode_colors[(cube[YELLOW] & 0x00000F00) >> 8]);
 	printf("      %s%s%s\n", unicode_colors[(cube[YELLOW] & 0xF0000000) >> 28], unicode_colors[YELLOW], unicode_colors[(cube[YELLOW] & 0x0000F000) >> 12]);
 	printf("      %s%s%s\n", unicode_colors[(cube[YELLOW] & 0x0F000000) >> 24], unicode_colors[(cube[YELLOW] & 0x00F00000) >> 20], unicode_colors[(cube[YELLOW] & 0x000F0000) >> 16]);
+}
+
+uint8_t is_solved(uint32_t* cube){
+	return !!(
+		cube[0] == 0x00000000 && 
+		cube[1] == 0x11111111 &&
+		cube[2] == 0x22222222 &&
+		cube[3] == 0x33333333 &&
+		cube[4] == 0x44444444 &&
+		cube[5] == 0x55555555
+		);
+}
+
+void make_moves(uint32_t* cube, char* algo){
+	if(!(algo[0])) return;
+	char algo_cpy[1000];
+	strncpy(algo_cpy, algo, 999);
+	algo_cpy[999] = 0;
+	char *token;
+	token = strtok(algo_cpy, " ");
+
+	while (token != 0) {
+		printf("%s ", token);
+
+		if (!strcmp(token, "U2")) {
+			rotate_face(cube, WHITE, 0);
+			rotate_face(cube, WHITE, 0);
+		} else if (!strcmp(token, "U'")) {
+			rotate_face(cube, WHITE, 1);
+		} else if (!strcmp(token, "U")) {
+			rotate_face(cube, WHITE, 0);
+		} else if (!strcmp(token, "F2")) {
+			rotate_face(cube, GREEN, 0);
+			rotate_face(cube, GREEN, 0);
+		} else if (!strcmp(token, "F'")) {
+			rotate_face(cube, GREEN, 1);
+		} else if (!strcmp(token, "F")) {
+			rotate_face(cube, GREEN, 0);
+		} else if (!strcmp(token, "R2")) {
+			rotate_face(cube, RED, 0);
+			rotate_face(cube, RED, 0);
+		} else if (!strcmp(token, "R'")) {
+			rotate_face(cube, RED, 1);
+		} else if (!strcmp(token, "R")) {
+			rotate_face(cube, RED, 0);
+		} else if (!strcmp(token, "B2")) {
+			rotate_face(cube, BLUE, 0);
+			rotate_face(cube, BLUE, 0);
+		} else if (!strcmp(token, "B'")) {
+			rotate_face(cube, BLUE, 1);
+		} else if (!strcmp(token, "B")) {
+			rotate_face(cube, BLUE, 0);
+		} else if (!strcmp(token, "L2")) {
+			rotate_face(cube, ORANGE, 0);
+			rotate_face(cube, ORANGE, 0);
+		} else if (!strcmp(token, "L'")) {
+			rotate_face(cube, ORANGE, 1);
+		} else if (!strcmp(token, "L")) {
+			rotate_face(cube, ORANGE, 0);
+		} else if (!strcmp(token, "D2")) {
+			rotate_face(cube, YELLOW, 0);
+			rotate_face(cube, YELLOW, 0);
+		} else if (!strcmp(token, "D'")) {
+			rotate_face(cube, YELLOW, 1);
+		} else if (!strcmp(token, "D")) {
+			rotate_face(cube, YELLOW, 0);
+		}
+		token = strtok(0, " ");
+	}
+	printf("\n");
+	print_cube_color(cube);
 }
