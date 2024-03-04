@@ -13,9 +13,9 @@ int main(int argc, char *argv[]) {
 		strncpy(algo, argv[1], sizeof(algo)-1);
 	}
 	algo[sizeof(algo)-1] = 0;
-	make_moves(cube, algo);
+	make_moves(cube, algo, 0);
 
 	start_console(cube);
-	
+
 	return 0;
 }
