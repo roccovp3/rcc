@@ -2,3 +2,4 @@ rcc
 *.out
 *.o
 .vscode/
+build/
