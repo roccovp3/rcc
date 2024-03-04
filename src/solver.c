@@ -1,8 +1,7 @@
 #include <stdint.h>
+#include <stdio.h>
 #include "solver.h"
 #include "cube.h"
-
-#include <stdio.h>
 
 #define CORNER(a, b, c) ( a | (b << 4) | (c << 8))
 #define EDGE(a, b) (a | (b << 4))
@@ -20,7 +19,7 @@ typedef struct {
 } edge_t;
 
 /* all corners and rotations */
-corner_t CORNERS[24] = {
+const corner_t CORNERS[24] = {
     {.corner=CORNER(WHITE, ORANGE, BLUE), .setup={0}, .setup_undo={0}},
     {.corner=CORNER(WHITE, BLUE, RED), .setup="R D'", .setup_undo="D R'"},
     {.corner=CORNER(WHITE, RED, GREEN), .setup="F", .setup_undo="F'"},
@@ -49,7 +48,7 @@ corner_t CORNERS[24] = {
     {.corner=CORNER(BLUE, ORANGE, YELLOW), .setup="D' R", .setup_undo="R' D"}
 };
 
-edge_t EDGES[24] = {
+const edge_t EDGES[24] = {
     {.edge=EDGE(WHITE, ORANGE), .setup={0}, .setup_undo={0}},
     {.edge=EDGE(WHITE, BLUE), .setup="R2 U' R2", .setup_undo="R2 U R2"},
     {.edge=EDGE(WHITE, RED), .setup={0}, .setup_undo={0}},
@@ -90,9 +89,9 @@ void solve_corners(uint32_t* cube){
             // != are for the buffer corner.
             if((buffer == CORNERS[i].corner) && (buffer != 0x340) && (buffer != 0x403) && (buffer != 0x034)){
                 solved_corners[solved_corners_count++] = CORNERS[i%8].corner;
-                make_moves(cube, CORNERS[i].setup);
+                make_moves(cube, (char*)CORNERS[i].setup);
                 make_moves(cube, swap_algo);
-                make_moves(cube, CORNERS[i].setup_undo);
+                make_moves(cube, (char*)CORNERS[i].setup_undo);
                 break;
             } else if ((buffer == 0x340) || (buffer == 0x403) || (buffer == 0x034)){
                 corner_t swap;
@@ -134,9 +133,9 @@ int solve_edges(uint32_t* cube){
             // != are for the buffer edge.
             if((buffer == EDGES[i].edge) && (buffer != EDGE(WHITE, RED)) && (buffer != EDGE(RED, WHITE))){
                 solved_edges[solved_edges_count++] = EDGES[i%12].edge;
-                make_moves(cube, EDGES[i].setup);
+                make_moves(cube, (char*)EDGES[i].setup);
                 make_moves(cube, swap_algo);
-                make_moves(cube, EDGES[i].setup_undo);
+                make_moves(cube, (char*)EDGES[i].setup_undo);
                 parity = !parity;
                 break;
             } else if ((buffer == EDGE(WHITE, RED)) || (buffer == EDGE(RED, WHITE))){
@@ -168,8 +167,10 @@ int solve_edges(uint32_t* cube){
 }
 
 void solve(uint32_t* cube){
-    if(solve_edges(cube)){
-        make_moves(cube, "B U2 B' U2 B L' B' U' B U B L B2 U");
+    if(!is_solved(cube)){
+        if(solve_edges(cube)){
+            make_moves(cube, "B U2 B' U2 B L' B' U' B U B L B2 U");
+        }
+        solve_corners(cube);
     }
-    solve_corners(cube);
 }

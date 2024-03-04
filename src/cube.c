@@ -121,8 +121,6 @@ void make_moves(uint32_t* cube, char* algo){
 	token = strtok(algo_cpy, " ");
 
 	while (token != 0) {
-		printf("%s ", token);
-
 		if (!strcmp(token, "U2")) {
 			rotate_face(cube, WHITE, 0);
 			rotate_face(cube, WHITE, 0);
@@ -168,6 +166,4 @@ void make_moves(uint32_t* cube, char* algo){
 		}
 		token = strtok(0, " ");
 	}
-	printf("\n");
-	print_cube_color(cube);
 }

@@ -13,11 +13,11 @@ typedef enum {
 
 void rotate_face(uint32_t* cube, FACE face, uint8_t ccw);
 
-void print_cube_oneline();
+void print_cube_oneline(uint32_t* cube);
 
-void print_cube_text();
+void print_cube_text(uint32_t* cube);
 
-void print_cube_color();
+void print_cube_color(uint32_t* cube);
 
 uint8_t is_solved(uint32_t* cube);
 
