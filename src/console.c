@@ -6,7 +6,7 @@
 
 #define COMMAND_BUFFER_SIZE 1000
 
-static void draw_console(uint32_t* cube){
+void draw_console(uint32_t* cube){
     //clear screen
     printf("\033[2J");
     //set cursor to top of terminal
@@ -23,11 +23,15 @@ static void console_loop(uint32_t* cube){
 		fgets(command, sizeof(command), stdin);
 		command[strlen(command)-1] = '\0';
 		if(!strcmp(command, "solve")){
-			solve(cube);
-		} else if(!strcmp(command, "exit")){
+			solve(cube, 0);
+		} else if(!strcmp(command, "solve fast")){
+            solve(cube, 20*1000);
+        } else if(!strcmp(command, "solve slow")){
+            solve(cube, 100*1000);
+        } else if(!strcmp(command, "exit")){
             exit(0);
         } else {
-			make_moves(cube, command);
+			make_moves(cube, command, 100*1000); //100 ms delay
 		}
         draw_console(cube);
 	}

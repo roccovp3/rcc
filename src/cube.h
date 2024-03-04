@@ -21,6 +21,6 @@ void print_cube_color(uint32_t* cube);
 
 uint8_t is_solved(uint32_t* cube);
 
-void make_moves(uint32_t* cube, char* algo);
+void make_moves(uint32_t* cube, char* algo, uint32_t delay);
 
 #endif

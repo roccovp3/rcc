@@ -1,7 +1,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "cube.h"
+#include "console.h"
 
 void rotate_face(uint32_t* cube, FACE face, uint8_t ccw) {
 
@@ -112,7 +114,7 @@ uint8_t is_solved(uint32_t* cube){
 		);
 }
 
-void make_moves(uint32_t* cube, char* algo){
+void make_moves(uint32_t* cube, char* algo, uint32_t delay){
 	if(!(algo[0])) return;
 	char algo_cpy[1000];
 	strncpy(algo_cpy, algo, 999);
@@ -121,6 +123,7 @@ void make_moves(uint32_t* cube, char* algo){
 	token = strtok(algo_cpy, " ");
 
 	while (token != 0) {
+		usleep(delay);
 		if (!strcmp(token, "U2")) {
 			rotate_face(cube, WHITE, 0);
 			rotate_face(cube, WHITE, 0);
@@ -163,6 +166,9 @@ void make_moves(uint32_t* cube, char* algo){
 			rotate_face(cube, YELLOW, 1);
 		} else if (!strcmp(token, "D")) {
 			rotate_face(cube, YELLOW, 0);
+		}
+		if(delay != 0){
+			draw_console(cube);
 		}
 		token = strtok(0, " ");
 	}

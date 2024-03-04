@@ -76,7 +76,7 @@ const edge_t EDGES[24] = {
     {.edge=EDGE(GREEN, ORANGE), .setup="L'", .setup_undo="L"}
 };
 
-void solve_corners(uint32_t* cube){
+void solve_corners(uint32_t* cube, uint32_t delay){
     char swap_algo[40] = "R U' R' U' R U R' F' R U R' U' R' F R";
     uint16_t solved_corners[8] = {0};
     uint8_t solved_corners_count = 0;
@@ -89,9 +89,9 @@ void solve_corners(uint32_t* cube){
             // != are for the buffer corner.
             if((buffer == CORNERS[i].corner) && (buffer != 0x340) && (buffer != 0x403) && (buffer != 0x034)){
                 solved_corners[solved_corners_count++] = CORNERS[i%8].corner;
-                make_moves(cube, (char*)CORNERS[i].setup);
-                make_moves(cube, swap_algo);
-                make_moves(cube, (char*)CORNERS[i].setup_undo);
+                make_moves(cube, (char*)CORNERS[i].setup, delay);
+                make_moves(cube, swap_algo, delay);
+                make_moves(cube, (char*)CORNERS[i].setup_undo, delay);
                 break;
             } else if ((buffer == 0x340) || (buffer == 0x403) || (buffer == 0x034)){
                 corner_t swap;
@@ -111,16 +111,16 @@ void solve_corners(uint32_t* cube){
                         break;
                     }
                 }
-                make_moves(cube, swap.setup);
-                make_moves(cube, swap_algo);
-                make_moves(cube, swap.setup_undo);
+                make_moves(cube, swap.setup, delay);
+                make_moves(cube, swap_algo, delay);
+                make_moves(cube, swap.setup_undo, delay);
                 break;
             }
         }
     }
 }
 
-int solve_edges(uint32_t* cube){
+int solve_edges(uint32_t* cube, uint32_t delay){
     char swap_algo[40] = "R U R' U' R' F R2 U' R' U' R U R' F'";
     uint8_t parity;
     uint16_t solved_edges[12] = {0};
@@ -133,9 +133,9 @@ int solve_edges(uint32_t* cube){
             // != are for the buffer edge.
             if((buffer == EDGES[i].edge) && (buffer != EDGE(WHITE, RED)) && (buffer != EDGE(RED, WHITE))){
                 solved_edges[solved_edges_count++] = EDGES[i%12].edge;
-                make_moves(cube, (char*)EDGES[i].setup);
-                make_moves(cube, swap_algo);
-                make_moves(cube, (char*)EDGES[i].setup_undo);
+                make_moves(cube, (char*)EDGES[i].setup, delay);
+                make_moves(cube, swap_algo, delay);
+                make_moves(cube, (char*)EDGES[i].setup_undo, delay);
                 parity = !parity;
                 break;
             } else if ((buffer == EDGE(WHITE, RED)) || (buffer == EDGE(RED, WHITE))){
@@ -155,9 +155,9 @@ int solve_edges(uint32_t* cube){
                         break;
                     }
                 }
-                make_moves(cube, swap.setup);
-                make_moves(cube, swap_algo);
-                make_moves(cube, swap.setup_undo);
+                make_moves(cube, swap.setup, delay);
+                make_moves(cube, swap_algo, delay);
+                make_moves(cube, swap.setup_undo, delay);
                 parity = !parity;
                 break;
             }
@@ -166,11 +166,11 @@ int solve_edges(uint32_t* cube){
     return parity;
 }
 
-void solve(uint32_t* cube){
+void solve(uint32_t* cube, uint32_t delay){
     if(!is_solved(cube)){
-        if(solve_edges(cube)){
-            make_moves(cube, "B U2 B' U2 B L' B' U' B U B L B2 U");
+        if(solve_edges(cube, delay)){
+            make_moves(cube, "B U2 B' U2 B L' B' U' B U B L B2 U", delay);
         }
-        solve_corners(cube);
+        solve_corners(cube, delay);
     }
 }
