@@ -104,14 +104,12 @@ void print_cube_color(uint32_t* cube) {
 }
 
 uint8_t is_solved(uint32_t* cube){
-	return !!(
-		cube[0] == 0x00000000 && 
-		cube[1] == 0x11111111 &&
-		cube[2] == 0x22222222 &&
-		cube[3] == 0x33333333 &&
-		cube[4] == 0x44444444 &&
-		cube[5] == 0x55555555
-		);
+	return (cube[0] == 0x00000000) && 
+		(cube[1] == 0x11111111) &&
+		(cube[2] == 0x22222222) &&
+		(cube[3] == 0x33333333) &&
+		(cube[4] == 0x44444444) &&
+		(cube[5] == 0x55555555);
 }
 
 void make_moves(uint32_t* cube, char* algo, uint32_t delay){

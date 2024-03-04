@@ -8,9 +8,9 @@
 
 void draw_console(uint32_t* cube){
     //clear screen
-    printf("\033[2J");
+    //printf("\033[2J");
     //set cursor to top of terminal
-	printf("\033[1;1H");
+	//printf("\033[1;1H");
 
 	printf("Rubik's Cube Console. Rocco Perciavalle 03/03/2024\n\n");
 	print_cube_color(cube);
