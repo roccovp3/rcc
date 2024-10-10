@@ -10,72 +10,74 @@
 
 typedef struct {
     uint16_t corner;
+    char letter; // Letter corresponds to resources/letterscheme.png
     char setup[8];
     char setup_undo[8];
 } corner_t;
 
 typedef struct {
     uint8_t edge;
+    char letter; // Letter corresponds to resources/letterscheme.png
     char setup[12];
     char setup_undo[12];
 } edge_t;
 
 /* all corners and rotations */
 const corner_t CORNERS[24] = {
-    {.corner=CORNER(WHITE, ORANGE, BLUE), .setup={0}, .setup_undo={0}},
-    {.corner=CORNER(WHITE, BLUE, RED), .setup="R D'", .setup_undo="D R'"},
-    {.corner=CORNER(WHITE, RED, GREEN), .setup="F", .setup_undo="F'"},
-    {.corner=CORNER(WHITE, GREEN, ORANGE), .setup="F R'", .setup_undo="R F'"},
-    {.corner=CORNER(YELLOW, ORANGE, GREEN), .setup="F'", .setup_undo="F"},
-    {.corner=CORNER(YELLOW, GREEN, RED), .setup="D' F'", .setup_undo="F D"},
-    {.corner=CORNER(YELLOW, RED, BLUE), .setup="D2 F'", .setup_undo="F D2"},
-    {.corner=CORNER(YELLOW, BLUE, ORANGE),.setup="D F'", .setup_undo="F D'"},
+    {.corner=CORNER(WHITE, ORANGE, BLUE), .letter='A', .setup={0}, .setup_undo={0}},
+    {.corner=CORNER(WHITE, BLUE, RED), .letter='B', .setup="R D'", .setup_undo="D R'"},
+    {.corner=CORNER(WHITE, RED, GREEN), .letter='C', .setup="F", .setup_undo="F'"},
+    {.corner=CORNER(WHITE, GREEN, ORANGE), .letter='D', .setup="F R'", .setup_undo="R F'"},
+    {.corner=CORNER(YELLOW, ORANGE, GREEN), .letter='U', .setup="F'", .setup_undo="F"},
+    {.corner=CORNER(YELLOW, GREEN, RED), .letter='V', .setup="D' F'", .setup_undo="F D"},
+    {.corner=CORNER(YELLOW, RED, BLUE), .letter='W', .setup="D2 F'", .setup_undo="F D2"},
+    {.corner=CORNER(YELLOW, BLUE, ORANGE), .letter='X', .setup="D F'", .setup_undo="F D'"},
 
-    {.corner=CORNER(BLUE, WHITE, ORANGE), .setup={0}, .setup_undo={0}},
-    {.corner=CORNER(RED, WHITE, BLUE), .setup="R2", .setup_undo="R2"},
-    {.corner=CORNER(GREEN, WHITE, RED), .setup="F2 D", .setup_undo="D' F2"},
-    {.corner=CORNER(ORANGE, WHITE, GREEN), .setup="F2", .setup_undo="F2"},
-    {.corner=CORNER(GREEN, YELLOW, ORANGE), .setup="D", .setup_undo="D'"},
-    {.corner=CORNER(RED, YELLOW, GREEN), .setup={0}, .setup_undo={0}},
-    {.corner=CORNER(BLUE, YELLOW, RED), .setup="D'", .setup_undo="D"},
-    {.corner=CORNER(ORANGE, YELLOW, BLUE), .setup="D2", .setup_undo="D2"},
+    {.corner=CORNER(BLUE, WHITE, ORANGE), .letter='R', .setup={0}, .setup_undo={0}},
+    {.corner=CORNER(RED, WHITE, BLUE), .letter='N', .setup="R2", .setup_undo="R2"},
+    {.corner=CORNER(GREEN, WHITE, RED), .letter='J', .setup="F2 D", .setup_undo="D' F2"},
+    {.corner=CORNER(ORANGE, WHITE, GREEN), .letter='F', .setup="F2", .setup_undo="F2"},
+    {.corner=CORNER(GREEN, YELLOW, ORANGE), .letter='L', .setup="D", .setup_undo="D'"},
+    {.corner=CORNER(RED, YELLOW, GREEN), .letter='P', .setup={0}, .setup_undo={0}},
+    {.corner=CORNER(BLUE, YELLOW, RED), .letter='T', .setup="D'", .setup_undo="D"},
+    {.corner=CORNER(ORANGE, YELLOW, BLUE), .letter='H', .setup="D2", .setup_undo="D2"},
 
-    {.corner=CORNER(ORANGE, BLUE, WHITE), .setup={0}, .setup_undo={0}},
-    {.corner=CORNER(BLUE, RED, WHITE), .setup="R' F", .setup_undo="F' R"},
-    {.corner=CORNER(RED, GREEN, WHITE), .setup="R'", .setup_undo="R"},
-    {.corner=CORNER(GREEN, ORANGE, WHITE), .setup="F' D", .setup_undo="D' F"},
-    {.corner=CORNER(ORANGE, GREEN, YELLOW), .setup="D2 R", .setup_undo="R' D2"},
-    {.corner=CORNER(GREEN, RED, YELLOW), .setup="D R", .setup_undo="R' D'"},
-    {.corner=CORNER(RED, BLUE, YELLOW), .setup="R", .setup_undo="R'"},
-    {.corner=CORNER(BLUE, ORANGE, YELLOW), .setup="D' R", .setup_undo="R' D"}
+    {.corner=CORNER(ORANGE, BLUE, WHITE), .letter='E', .setup={0}, .setup_undo={0}},
+    {.corner=CORNER(BLUE, RED, WHITE), .letter='Q', .setup="R' F", .setup_undo="F' R"},
+    {.corner=CORNER(RED, GREEN, WHITE), .letter='M', .setup="R'", .setup_undo="R"},
+    {.corner=CORNER(GREEN, ORANGE, WHITE), .letter='I', .setup="F' D", .setup_undo="D' F"},
+    {.corner=CORNER(ORANGE, GREEN, YELLOW), .letter='G', .setup="D2 R", .setup_undo="R' D2"},
+    {.corner=CORNER(GREEN, RED, YELLOW), .letter='K', .setup="D R", .setup_undo="R' D'"},
+    {.corner=CORNER(RED, BLUE, YELLOW), .letter='O', .setup="R", .setup_undo="R'"},
+    {.corner=CORNER(BLUE, ORANGE, YELLOW), .letter='S', .setup="D' R", .setup_undo="R' D"}
 };
 
 const edge_t EDGES[24] = {
-    {.edge=EDGE(WHITE, ORANGE), .setup={0}, .setup_undo={0}},
-    {.edge=EDGE(WHITE, BLUE), .setup="R2 U' R2", .setup_undo="R2 U R2"},
-    {.edge=EDGE(WHITE, RED), .setup={0}, .setup_undo={0}},
-    {.edge=EDGE(WHITE, GREEN), .setup="R2 U R2", .setup_undo="R2 U' R2"},
-    {.edge=EDGE(YELLOW, ORANGE), .setup="L2", .setup_undo="L2"},
-    {.edge=EDGE(YELLOW, GREEN), .setup="D' L2", .setup_undo="L2 D"},
-    {.edge=EDGE(YELLOW, RED), .setup="D2 L2", .setup_undo="L2 D2"},
-    {.edge=EDGE(YELLOW, BLUE),.setup="D L2", .setup_undo="L2 D'"},
-    {.edge=EDGE(BLUE, RED), .setup="U2 R' U2", .setup_undo="U2 R U2"},
-    {.edge=EDGE(BLUE, ORANGE), .setup="L", .setup_undo="L'"},
-    {.edge=EDGE(RED, GREEN), .setup="U' F' U", .setup_undo="U' F U"},
-    {.edge=EDGE(ORANGE, GREEN), .setup="U' F U", .setup_undo="U' F' U"},
+    {.edge=EDGE(WHITE, ORANGE), .letter='D', .setup={0}, .setup_undo={0}},
+    {.edge=EDGE(WHITE, BLUE), .letter='A', .setup="R2 U' R2", .setup_undo="R2 U R2"},
+    {.edge=EDGE(WHITE, RED), .letter='B', .setup={0}, .setup_undo={0}},
+    {.edge=EDGE(WHITE, GREEN), .letter='C', .setup="R2 U R2", .setup_undo="R2 U' R2"},
+    {.edge=EDGE(YELLOW, ORANGE), .letter='X', .setup="L2", .setup_undo="L2"},
+    {.edge=EDGE(YELLOW, GREEN), .letter='U', .setup="D' L2", .setup_undo="L2 D"},
+    {.edge=EDGE(YELLOW, RED), .letter='V', .setup="D2 L2", .setup_undo="L2 D2"},
+    {.edge=EDGE(YELLOW, BLUE), .letter='W', .setup="D L2", .setup_undo="L2 D'"},
+    {.edge=EDGE(BLUE, RED), .letter='T', .setup="U2 R' U2", .setup_undo="U2 R U2"},
+    {.edge=EDGE(BLUE, ORANGE), .letter='R', .setup="L", .setup_undo="L'"},
+    {.edge=EDGE(RED, GREEN), .letter='P', .setup="U' F' U", .setup_undo="U' F U"},
+    {.edge=EDGE(ORANGE, GREEN), .letter='F', .setup="U' F U", .setup_undo="U' F' U"},
 
-    {.edge=EDGE(ORANGE, WHITE), .setup="L' U B' U'", .setup_undo="U B U' L"},
-    {.edge=EDGE(BLUE, WHITE), .setup="R' B L R", .setup_undo="R' L' B' R"},
-    {.edge=EDGE(RED, WHITE), .setup={0}, .setup_undo={0}},
-    {.edge=EDGE(GREEN, WHITE), .setup="R F' L' R'", .setup_undo="R L F R'"},
-    {.edge=EDGE(ORANGE, YELLOW), .setup="D F L' F'", .setup_undo="F L F' D'"},
-    {.edge=EDGE(GREEN, YELLOW), .setup="F L' F'", .setup_undo="F L F'"},
-    {.edge=EDGE(RED, YELLOW), .setup="D' F L' F'", .setup_undo="F L F' D"},
-    {.edge=EDGE(BLUE, YELLOW), .setup="B' L B", .setup_undo="B' L' B"},
-    {.edge=EDGE(RED, BLUE), .setup="U B U'", .setup_undo="U B' U"},
-    {.edge=EDGE(ORANGE, BLUE), .setup="U B' U'", .setup_undo="U B U'"},
-    {.edge=EDGE(GREEN, RED), .setup="U2 R U2", .setup_undo="U2 R' U2"},
-    {.edge=EDGE(GREEN, ORANGE), .setup="L'", .setup_undo="L"}
+    {.edge=EDGE(ORANGE, WHITE), .letter='E', .setup="L' U B' U'", .setup_undo="U B U' L"},
+    {.edge=EDGE(BLUE, WHITE), .letter='Q', .setup="R' B L R", .setup_undo="R' L' B' R"},
+    {.edge=EDGE(RED, WHITE), .letter='M', .setup={0}, .setup_undo={0}},
+    {.edge=EDGE(GREEN, WHITE), .letter='I', .setup="R F' L' R'", .setup_undo="R L F R'"},
+    {.edge=EDGE(ORANGE, YELLOW), .letter='G', .setup="D F L' F'", .setup_undo="F L F' D'"},
+    {.edge=EDGE(GREEN, YELLOW), .letter='K', .setup="F L' F'", .setup_undo="F L F'"},
+    {.edge=EDGE(RED, YELLOW), .letter='O', .setup="D' F L' F'", .setup_undo="F L F' D"},
+    {.edge=EDGE(BLUE, YELLOW), .letter='S', .setup="B' L B", .setup_undo="B' L' B"},
+    {.edge=EDGE(RED, BLUE), .letter='N', .setup="U B U'", .setup_undo="U B' U'"},
+    {.edge=EDGE(ORANGE, BLUE), .letter='H', .setup="U B' U'", .setup_undo="U B U'"},
+    {.edge=EDGE(GREEN, RED), .letter='J', .setup="U2 R U2", .setup_undo="U2 R' U2"},
+    {.edge=EDGE(GREEN, ORANGE), .letter='L', .setup="L'", .setup_undo="L"}
 };
 
 void get_solved_corners(uint32_t* cube, uint16_t* solved_corners, uint8_t* count){
@@ -91,7 +93,9 @@ void get_solved_corners(uint32_t* cube, uint16_t* solved_corners, uint8_t* count
     if((((cube[YELLOW] & 0x0F000000) >> 24) | ((cube[BLUE] & 0x000F0000) >> 12) | ((cube[ORANGE] & 0x0F000000) >> 16)) == CORNER(YELLOW, BLUE, ORANGE)) solved_corners[(*count)++] = CORNER(YELLOW, BLUE, ORANGE);
 }
 
-void solve_corners(uint32_t* cube, uint32_t delay){
+void solve_corners(uint32_t* cube, uint32_t delay, char* corners_letter_pairs){
+    uint8_t corners_letter_pairs_i = 0;
+    corners_letter_pairs[0] = 0;
     char swap_algo[40] = "R U' R' U' R U R' F' R U R' U' R' F R";
     uint16_t solved_corners[8] = {0};
     uint8_t solved_corners_count = 0;
@@ -104,6 +108,8 @@ void solve_corners(uint32_t* cube, uint32_t delay){
         for(uint8_t i = 0; i < 24; i++){
             // != are for the buffer corner.
             if((buffer == CORNERS[i].corner) && (buffer != 0x340) && (buffer != 0x403) && (buffer != 0x034)){
+                corners_letter_pairs[corners_letter_pairs_i++] = CORNERS[i].letter;
+                corners_letter_pairs[corners_letter_pairs_i] = 0;
                 if(is_solved(cube)) return;
                 solved_corners[solved_corners_count++] = CORNERS[i%8].corner;
                 make_moves(cube, (char*)CORNERS[i].setup, delay);
@@ -128,6 +134,8 @@ void solve_corners(uint32_t* cube, uint32_t delay){
                         break;
                     }
                 }
+                corners_letter_pairs[corners_letter_pairs_i++] = swap.letter;
+                corners_letter_pairs[corners_letter_pairs_i] = 0;
                 if(is_solved(cube)) return;
                 make_moves(cube, swap.setup, delay);
                 make_moves(cube, swap_algo, delay);
@@ -156,7 +164,9 @@ void get_solved_edges(uint32_t* cube, uint8_t* solved_edges, uint8_t* count){
     if((((cube[ORANGE] & 0x0000F000) >> 12) | ((cube[GREEN] & 0xF0000000) >> 24)) == EDGE(ORANGE, GREEN)) solved_edges[(*count)++] = EDGE(ORANGE, GREEN);
 }
 
-uint8_t solve_edges(uint32_t* cube, uint32_t delay){
+uint8_t solve_edges(uint32_t* cube, uint32_t delay, char* edges_letter_pairs){
+    uint8_t edges_letter_pairs_i = 0;
+    edges_letter_pairs[0] = 0;
     char swap_algo[40] = "R U R' U' R' F R2 U' R' U' R U R' F'";
     uint8_t solved_edges[12] = {0};
     uint8_t solved_edges_count = 0;
@@ -169,6 +179,8 @@ uint8_t solve_edges(uint32_t* cube, uint32_t delay){
         for(uint8_t i = 0; i < 24; i++){
             // != are for the buffer edge.
             if((buffer == EDGES[i].edge) && (buffer != EDGE(WHITE, RED)) && (buffer != EDGE(RED, WHITE))){
+                edges_letter_pairs[edges_letter_pairs_i++] = EDGES[i].letter;
+                edges_letter_pairs[edges_letter_pairs_i] = 0;
                 if(is_solved(cube)) return 0;
                 solved_edges[solved_edges_count++] = EDGES[i%12].edge;
                 make_moves(cube, (char*)EDGES[i].setup, delay);
@@ -193,6 +205,8 @@ uint8_t solve_edges(uint32_t* cube, uint32_t delay){
                         break;
                     }
                 }
+                edges_letter_pairs[edges_letter_pairs_i++] = swap.letter;
+                edges_letter_pairs[edges_letter_pairs_i] = 0;
                 if(is_solved(cube)) return 0;
                 make_moves(cube, swap.setup, delay);
                 make_moves(cube, swap_algo, delay);
@@ -205,12 +219,14 @@ uint8_t solve_edges(uint32_t* cube, uint32_t delay){
     return parity;
 }
 
-void solve(uint32_t* cube, uint32_t delay){
+uint8_t solve(uint32_t* cube, uint32_t delay, char* edges_letter_pairs, char* corners_letter_pairs){
+    uint8_t parity = 0;
     if(!is_solved(cube)){
-        if(solve_edges(cube, delay)){
-            if(is_solved(cube)) return;
+        parity = solve_edges(cube, delay, edges_letter_pairs);
+        if(parity){
             make_moves(cube, "B U2 B' U2 B L' B' U' B U B L B2 U", delay);
         }
-        solve_corners(cube, delay);
+        solve_corners(cube, delay, corners_letter_pairs);
     }
+    return parity;
 }

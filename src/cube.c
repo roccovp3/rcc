@@ -166,7 +166,7 @@ void make_moves(uint32_t* cube, char* algo, uint32_t delay){
 			rotate_face(cube, YELLOW, 0);
 		}
 		if(delay != 0){
-			draw_console(cube);
+			draw_console(cube, 0);
 		}
 		token = strtok(0, " ");
 	}
