@@ -1,5 +1,7 @@
 # Rubik's Cube Console
 
+![RCC Demo](resources/demo.gif)
+
 This project implements a Rubik's cube you can interface with on a command line. Currently it supports basic moves and algorithm inputs, and can solve a cube with the Old Pochmann method used commonly for solving a Rubik's cube blindfolded. I chose this method to implement first because it has no "freeform" or "intuitive" parts that would be difficult to implement programatically.
 
 To build, run `make`. Currently, this project only runs on Linux due to the use of `unistd.h`.
