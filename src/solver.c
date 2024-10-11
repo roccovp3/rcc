@@ -154,9 +154,9 @@ void get_solved_edges(uint32_t* cube, uint8_t* solved_edges, uint8_t* count){
     if((((cube[WHITE] & 0x000000F0) >> 4) | (cube[BLUE] & 0x000000F0)) == EDGE(WHITE, BLUE)) solved_edges[(*count)++] = EDGE(WHITE, BLUE);
 
     if((((cube[YELLOW] & 0xF0000000) >> 28) | ((cube[ORANGE] & 0x00F00000) >> 16)) == EDGE(YELLOW, ORANGE)) solved_edges[(*count)++] = EDGE(YELLOW, ORANGE);
-    if((((cube[YELLOW] & 0x00F00000) >> 20) | ((cube[GREEN] & 0x00F00000) >> 16)) == EDGE(YELLOW, GREEN)) solved_edges[(*count)++] = EDGE(YELLOW, GREEN);
+    if((((cube[YELLOW] & 0x00F00000) >> 20) | ((cube[BLUE] & 0x00F00000) >> 16)) == EDGE(YELLOW, BLUE)) solved_edges[(*count)++] = EDGE(YELLOW, BLUE);
     if((((cube[YELLOW] & 0x0000F000) >> 12) | ((cube[RED] & 0x00F00000) >> 16)) == EDGE(YELLOW, RED)) solved_edges[(*count)++] = EDGE(YELLOW, RED);
-    if((((cube[YELLOW] & 0x000000F0) >> 4) | ((cube[BLUE] & 0x00F00000) >> 16)) == EDGE(YELLOW, BLUE)) solved_edges[(*count)++] = EDGE(YELLOW, BLUE);
+    if((((cube[YELLOW] & 0x000000F0) >> 4) | ((cube[GREEN] & 0x00F00000) >> 16)) == EDGE(YELLOW, GREEN)) solved_edges[(*count)++] = EDGE(YELLOW, GREEN);
 
     if((((cube[BLUE] & 0xF0000000) >> 28) | ((cube[RED] & 0x0000F000) >> 8)) == EDGE(BLUE, RED)) solved_edges[(*count)++] = EDGE(BLUE, RED);
     if((((cube[BLUE] & 0x0000F000) >> 12) | ((cube[ORANGE] & 0xF0000000) >> 24)) == EDGE(BLUE, ORANGE)) solved_edges[(*count)++] = EDGE(BLUE, ORANGE);
