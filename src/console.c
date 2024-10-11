@@ -19,7 +19,7 @@ void draw_console(uint32_t* cube, uint8_t print_letter_pairs){
 	print_cube_color(cube);
     if(print_letter_pairs){
         printf("Edges: %s\n", edges_letter_pairs);
-        if(strlen(edges_letter_pairs) & 0x1) printf("(Parity)\n");
+        if((strlen(edges_letter_pairs)+strlen(corners_letter_pairs)) & 0x1) printf("(Parity)\n");
         printf("Corners: %s\n", corners_letter_pairs);
     }
     printf(">");
