@@ -1,9 +1,19 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
+#include <time.h>
 #include "cube.h"
 #include "console.h"
+
+static struct timespec ts = {
+	.tv_sec = 0, 
+	.tv_nsec = 0
+};
+
+void set_delay(struct timespec *ts, uint32_t delay_in_ms) {
+	ts->tv_sec = delay_in_ms / 1000;
+	ts->tv_nsec = (delay_in_ms % 1000) * 1000 * 1000;
+}
 
 void rotate_face(uint32_t* cube, FACE face, uint8_t ccw) {
 
@@ -79,28 +89,85 @@ void print_cube_text(uint32_t* cube) {
 }
 
 void print_cube_color(uint32_t* cube) {
-	const char* unicode_colors[6] = {"\U00002B1C", "\U0001F7E9", "\U0001F7E5", "\U0001F7E6", "\U0001F7E7", "\U0001F7E8"};
-	printf("      %s%s%s\n", unicode_colors[(cube[WHITE] & 0x0000000F)], unicode_colors[(cube[WHITE] & 0x000000F0) >> 4], unicode_colors[(cube[WHITE] & 0x00000F00) >> 8]);
-	printf("      %s%s%s\n", unicode_colors[(cube[WHITE] & 0xF0000000) >> 28], unicode_colors[WHITE], unicode_colors[(cube[WHITE] & 0x0000F000) >> 12]);
-	printf("      %s%s%s\n", unicode_colors[(cube[WHITE] & 0x0F000000) >> 24], unicode_colors[(cube[WHITE] & 0x00F00000) >> 20], unicode_colors[(cube[WHITE] & 0x000F0000) >> 16]);
-	printf("%s%s%s%s%s%s%s%s%s%s%s%s\n", 
-	unicode_colors[(cube[ORANGE] & 0x0000000F)], unicode_colors[(cube[ORANGE] & 0x000000F0) >> 4], unicode_colors[(cube[ORANGE] & 0x00000F00) >> 8], 
-	unicode_colors[(cube[GREEN] & 0x0000000F)], unicode_colors[(cube[GREEN] & 0x000000F0) >> 4], unicode_colors[(cube[GREEN] & 0x00000F00) >> 8], 
-	unicode_colors[(cube[RED] & 0x0000000F)], unicode_colors[(cube[RED] & 0x000000F0) >> 4], unicode_colors[(cube[RED] & 0x00000F00) >> 8], 
-	unicode_colors[(cube[BLUE] & 0x0000000F)], unicode_colors[(cube[BLUE] & 0x000000F0) >> 4], unicode_colors[(cube[BLUE] & 0x00000F00) >> 8]);
-	printf("%s%s%s%s%s%s%s%s%s%s%s%s\n", 
-	unicode_colors[(cube[ORANGE] & 0xF0000000) >> 28], unicode_colors[ORANGE], unicode_colors[(cube[ORANGE] & 0x0000F000) >> 12], 
-	unicode_colors[(cube[GREEN] & 0xF0000000) >> 28], unicode_colors[GREEN], unicode_colors[(cube[GREEN] & 0x0000F000) >> 12], 
-	unicode_colors[(cube[RED] & 0xF0000000) >> 28], unicode_colors[RED], unicode_colors[(cube[RED] & 0x0000F000) >> 12], 
-	unicode_colors[(cube[BLUE] & 0xF0000000) >> 28], unicode_colors[BLUE], unicode_colors[(cube[BLUE] & 0x0000F000) >> 12]);
-	printf("%s%s%s%s%s%s%s%s%s%s%s%s\n", 
-	unicode_colors[(cube[ORANGE] & 0x0F000000) >> 24], unicode_colors[(cube[ORANGE] & 0x00F00000) >> 20], unicode_colors[(cube[ORANGE] & 0x000F0000) >> 16], 
-	unicode_colors[(cube[GREEN] & 0x0F000000) >> 24], unicode_colors[(cube[GREEN] & 0x00F00000) >> 20], unicode_colors[(cube[GREEN] & 0x000F0000) >> 16], 
-	unicode_colors[(cube[RED] & 0x0F000000) >> 24], unicode_colors[(cube[RED] & 0x00F00000) >> 20], unicode_colors[(cube[RED] & 0x000F0000) >> 16], 
-	unicode_colors[(cube[BLUE] & 0x0F000000) >> 24], unicode_colors[(cube[BLUE] & 0x00F00000) >> 20], unicode_colors[(cube[BLUE] & 0x000F0000) >> 16]);
-	printf("      %s%s%s\n", unicode_colors[(cube[YELLOW] & 0x0000000F)], unicode_colors[(cube[YELLOW] & 0x000000F0) >> 4], unicode_colors[(cube[YELLOW] & 0x00000F00) >> 8]);
-	printf("      %s%s%s\n", unicode_colors[(cube[YELLOW] & 0xF0000000) >> 28], unicode_colors[YELLOW], unicode_colors[(cube[YELLOW] & 0x0000F000) >> 12]);
-	printf("      %s%s%s\n", unicode_colors[(cube[YELLOW] & 0x0F000000) >> 24], unicode_colors[(cube[YELLOW] & 0x00F00000) >> 20], unicode_colors[(cube[YELLOW] & 0x000F0000) >> 16]);
+    const char* unicode_colors[6] = {
+        "\033[47m",           // White
+        "\033[42m",           // Green
+        "\033[41m",           // Red
+        "\033[44m",           // Blue
+        "\033[48;5;214m",     // Orange
+        "\033[48;2;255;255;0m" // Yellow
+    };
+
+    // Print the white face
+    printf("      %s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[WHITE] & 0x0000000F)],
+           unicode_colors[(cube[WHITE] & 0x000000F0) >> 4],
+           unicode_colors[(cube[WHITE] & 0x00000F00) >> 8]);
+    printf("      %s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[WHITE] & 0xF0000000) >> 28],
+           unicode_colors[WHITE],
+           unicode_colors[(cube[WHITE] & 0x0000F000) >> 12]);
+    printf("      %s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[WHITE] & 0x0F000000) >> 24],
+           unicode_colors[(cube[WHITE] & 0x00F00000) >> 20],
+           unicode_colors[(cube[WHITE] & 0x000F0000) >> 16]);
+
+    // Print the middle four faces
+    printf("%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[ORANGE] & 0x0000000F)],
+           unicode_colors[(cube[ORANGE] & 0x000000F0) >> 4],
+           unicode_colors[(cube[ORANGE] & 0x00000F00) >> 8],
+           unicode_colors[(cube[GREEN] & 0x0000000F)],
+           unicode_colors[(cube[GREEN] & 0x000000F0) >> 4],
+           unicode_colors[(cube[GREEN] & 0x00000F00) >> 8],
+           unicode_colors[(cube[RED] & 0x0000000F)],
+           unicode_colors[(cube[RED] & 0x000000F0) >> 4],
+           unicode_colors[(cube[RED] & 0x00000F00) >> 8],
+           unicode_colors[(cube[BLUE] & 0x0000000F)],
+           unicode_colors[(cube[BLUE] & 0x000000F0) >> 4],
+           unicode_colors[(cube[BLUE] & 0x00000F00) >> 8]);
+
+    printf("%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[ORANGE] & 0xF0000000) >> 28],
+           unicode_colors[ORANGE],
+           unicode_colors[(cube[ORANGE] & 0x0000F000) >> 12],
+           unicode_colors[(cube[GREEN] & 0xF0000000) >> 28],
+           unicode_colors[GREEN],
+           unicode_colors[(cube[GREEN] & 0x0000F000) >> 12],
+           unicode_colors[(cube[RED] & 0xF0000000) >> 28],
+           unicode_colors[RED],
+           unicode_colors[(cube[RED] & 0x0000F000) >> 12],
+           unicode_colors[(cube[BLUE] & 0xF0000000) >> 28],
+           unicode_colors[BLUE],
+           unicode_colors[(cube[BLUE] & 0x0000F000) >> 12]);
+
+    printf("%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[ORANGE] & 0x0F000000) >> 24],
+           unicode_colors[(cube[ORANGE] & 0x00F00000) >> 20],
+           unicode_colors[(cube[ORANGE] & 0x000F0000) >> 16],
+           unicode_colors[(cube[GREEN] & 0x0F000000) >> 24],
+           unicode_colors[(cube[GREEN] & 0x00F00000) >> 20],
+           unicode_colors[(cube[GREEN] & 0x000F0000) >> 16],
+           unicode_colors[(cube[RED] & 0x0F000000) >> 24],
+           unicode_colors[(cube[RED] & 0x00F00000) >> 20],
+           unicode_colors[(cube[RED] & 0x000F0000) >> 16],
+           unicode_colors[(cube[BLUE] & 0x0F000000) >> 24],
+           unicode_colors[(cube[BLUE] & 0x00F00000) >> 20],
+           unicode_colors[(cube[BLUE] & 0x000F0000) >> 16]);
+
+    // Print the bottom face
+    printf("      %s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[YELLOW] & 0x0000000F)],
+           unicode_colors[(cube[YELLOW] & 0x000000F0) >> 4],
+           unicode_colors[(cube[YELLOW] & 0x00000F00) >> 8]);
+    printf("      %s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[YELLOW] & 0xF0000000) >> 28],
+           unicode_colors[YELLOW],
+           unicode_colors[(cube[YELLOW] & 0x0000F000) >> 12]);
+    printf("      %s  \033[0m%s  \033[0m%s  \033[0m\n",
+           unicode_colors[(cube[YELLOW] & 0x0F000000) >> 24],
+           unicode_colors[(cube[YELLOW] & 0x00F00000) >> 20],
+           unicode_colors[(cube[YELLOW] & 0x000F0000) >> 16]);
 }
 
 uint8_t is_solved(uint32_t* cube){
@@ -120,8 +187,10 @@ void make_moves(uint32_t* cube, char* algo, uint32_t delay){
 	char *token;
 	token = strtok(algo_cpy, " ");
 
+	set_delay(&ts, delay);
+
 	while (token != 0) {
-		usleep(delay);
+		nanosleep(&ts, &ts);
 		if (!strcmp(token, "U2")) {
 			rotate_face(cube, WHITE, 0);
 			rotate_face(cube, WHITE, 0);

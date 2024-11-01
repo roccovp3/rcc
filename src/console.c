@@ -35,13 +35,13 @@ static void console_loop(uint32_t* cube){
 			solve(cube, 0, edges_letter_pairs, corners_letter_pairs);
             print_letter_pairs = 1;
 		} else if(!strcmp(command, "solve fast")){
-            solve(cube, 20*1000, edges_letter_pairs, corners_letter_pairs);
+            solve(cube, 20, edges_letter_pairs, corners_letter_pairs);
         } else if(!strcmp(command, "solve slow")){
-            solve(cube, 100*1000, edges_letter_pairs, corners_letter_pairs);
+            solve(cube, 100, edges_letter_pairs, corners_letter_pairs);
         } else if(!strcmp(command, "exit")){
             exit(0);
         } else {
-			make_moves(cube, command, 100*1000); //100 ms delay
+			make_moves(cube, command, 100); //100 ms delay
 		}
         draw_console(cube, print_letter_pairs);
 	}
